@@ -20,32 +20,23 @@ Bundler.require(*Rails.groups)
 module YouveChangedV2
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    
+    config.load_defaults 5.2
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    
+
     # Don't generate system test files.
-    
-    
-    
-    # config.load_defaults 5.2
-    # config.generators.system_tests = nil
-
-
-
-
+    config.generators.system_tests = nil
     config.action_mailer.delivery_method = :smtp
-
     config.action_mailer.smtp_settings = {
-      address:              'smtp.sendgrid.net',
-      port:                 '587',
-      domain:               'example.com',
-      user_name:            ENV["SENDGRID_USERNAME"],
-      password:             ENV["SENDGRID_PASSWORD"],
-      authentication:       'plain',
-      enable_starttls_auto: true
+      :authentication => :plain,
+      :address => "smtp.mailgun.org",
+      :port => 587,
+      :domain => "#{ENV["MAILGUN_DOMAIN"]}.mailgun.org",
+      :user_name => "postmaster@#{ENV["MAILGUN_DOMAIN"]}.mailgun.org",
+      :password => ENV["MAILGUN_PASSWORD"]
     }
 
   end
